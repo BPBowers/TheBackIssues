@@ -12,6 +12,9 @@ export default function Home() {
         <Link href="users">To Users Page</Link>
       </h2>
       <ProductCard />
+      <h3>
+        <Link href="browse">To Browse Page (using this as 3d canvas workshop)</Link>
+      </h3>
     </main>
   );
 }
