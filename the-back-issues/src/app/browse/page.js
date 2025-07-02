@@ -42,14 +42,15 @@ function Comic (props) {
 
 export default function BrowsePage() {
     return (
-        <div style={{ height: '100vh', width: '100vw' }}>
+        <div style={{ height: '50vh', width: '100vw' }}>
             <Canvas>
-                <color attach="background" args={['fff']} />
-                <ambientLight intensity={0.75} />
+                <ambientLight intensity={0.50} />
                 <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
                 <pointLight position={[-10, -10, -10]} />
-                <Comic position={[0, 0, 0]} />
+                <Comic position={[0, 0, 2]} />
             </Canvas>
         </div>
     )
 }
+
+//<color attach="background" args={['000']} />
