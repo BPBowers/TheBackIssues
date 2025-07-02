@@ -13,7 +13,9 @@ export default function Home() {
       <h2>
         <Link href="users">To Users Page</Link>
       </h2>
-      <ProductCard />
+      <div className="flex justify-center">
+      <ProductCard/>
+      </div>
       
       <h3>
         <Link href="browse">To Browse Page (using this as 3d canvas workshop)</Link>
