@@ -1,9 +1,23 @@
+import { Blob } from 'buffer';
 import React from 'react'
 
-const ItemCard = () => {
+interface ComicBook {
+    id: number;
+    issue: number;
+    frontCover: Blob;
+    backCover: Blob;
+    coverPrice: number;
+    releaseDate: Date;
+}
+
+const ItemCard = async () => {
+    
+    //const res = await fetch('https://jsonplaceholder.typicode.com/users', { next: { revalidate: 10 } });
+    //const users: ComicBook[] = await res.json();
+
     return (
         <div className="border card card-side bg-base-100 shadow-sm">
-            <img width="180vw" height="270vw" src="https://cdn.marvel.com/u/prod/marvel/i/mg/4/20/56966d674b06d/clean.jpg" alt="Comic Name" />
+            <img width="200vw" height="270vw" src="https://cdn.marvel.com/u/prod/marvel/i/mg/4/20/56966d674b06d/clean.jpg" alt="Comic Name" />
             <div className="card-body">
                 <h2 className="card-title">
                     Comic Name

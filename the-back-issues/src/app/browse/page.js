@@ -43,8 +43,8 @@ function Comic (props) {
 
 export default function BrowsePage() {
     return (
-        <div style={{ height: '50vh', width: '100vw' }}>
-            <Canvas>
+        <div>
+            <Canvas style={{ height: '50vh', width: '100vw' }}>
                 <ambientLight intensity={0.50} />
                 <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
                 <pointLight position={[-10, -10, -10]} />
