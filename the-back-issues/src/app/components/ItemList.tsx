@@ -4,11 +4,12 @@ import ItemCard from './ItemCard'
 
 interface ComicBook {
     id: number;
-    issue: number;
-    frontCover: string;
-    backCover: string;
-    coverPrice: number;
-    releaseDate: string;
+    issue?: number | null;
+    frontCover?: string | null;
+    backCover?: string | null;
+    coverPrice?: number | null;
+    releaseDate?: string | null;
+    seriesTitle?: string | null;
 }
 
 export default function ItemList() {
@@ -22,7 +23,6 @@ export default function ItemList() {
 
     return (
         <div>
-            <h1>Comic List</h1>
             <ul>
                 {comics.map((comic) => (
                     comic?.issue != undefined && (

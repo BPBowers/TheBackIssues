@@ -7,6 +7,7 @@ interface ComicBook {
     backCover?: string | null;
     coverPrice?: number | null;
     releaseDate?: string | null;
+    seriesTitle?: string | null;
 }
 
 interface ItemCardProps {
@@ -28,7 +29,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ comic }) => {
             src={imgSrc}
             alt="Comic Name" />
             <div className="card-body">
-                <h2 className="card-title">Issue {displayIssue}</h2>
+                <h2 className="card-title">{comic.seriesTitle || 'Unknown'} {displayIssue}</h2>
                 <p className="font-bold">Writer</p>
                 <p className="font-bold">Artist</p>
                 <p className="font-bold">Release Date: {displayReleaseYear}</p>
