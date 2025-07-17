@@ -3,6 +3,7 @@ import { useRef, useState } from 'react'
 import { Canvas, useFrame, useLoader } from '@react-three/fiber'
 import { TextureLoader, MeshBasicMaterial, SRGBColorSpace, PlaneGeometry, Mesh } from 'three'
 import ItemCard from "../components/ItemCard.tsx"
+import ItemList from "../components/ItemList.tsx"
 
 function Comic (props) {
     const ref = useRef()
@@ -50,8 +51,7 @@ export default function BrowsePage() {
                 <pointLight position={[-10, -10, -10]} />
                 <Comic position={[0, 0, 2]} />
             </Canvas>
-            <ItemCard />
-            <ItemCard />
+            <ItemList />
         </div>
     )
 }
