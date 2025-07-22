@@ -10,8 +10,13 @@ export async function GET() {
       Series: {
         select: {
           title: true,
-        },
-      },
+            Publisher: {
+              select: {
+                name: true
+              }
+            }
+        }
+      }
     }
   });
   const comicWithBase64 = comics.map(comic => ({
@@ -20,6 +25,7 @@ export async function GET() {
     backCover: comic.backCover ? Buffer.from(comic.backCover).toString('base64') : null,
     coverPrice: comic.coverPrice, releaseDate: comic.releaseDate,
     seriesTitle: comic.Series?.title || 'Unknown Series',
+    publisherName: comic.Series?.Publisher?.name || 'Unknown Publisher'
   }));
 
   return Response.json(comicWithBase64)
