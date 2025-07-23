@@ -84,5 +84,3 @@ export default function ItemList() {
         </div>
     )
 }
-//<PublisherFilter publisherNames={publisherName} selectedPublisher={filteredPublisher} onSelectPublisher={setFilteredPublisher}/>
-//<SeriesFilter seriesTitles={seriesTitles} selectedSeries={filteredSeries} onSelectSeries={setFilteredSeries}/>

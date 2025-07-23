@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 
 interface ComicBook {
     id: number;
@@ -47,7 +48,9 @@ const ItemCard: React.FC<ItemCardProps> = ({ comic }) => {
                     I read this book
                 </div>
                 <div className="card-actions justify-end">
-                    <button className="btn btn-primary">More info</button>
+                    <Link href={`/comic/${comic.id}`}>
+                        <button className="btn btn-primary">More info</button>
+                    </Link>
                 </div>
             </div>
         </div>
