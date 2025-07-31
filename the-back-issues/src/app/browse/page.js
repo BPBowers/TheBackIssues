@@ -3,7 +3,6 @@ import { useRef, useState } from 'react'
 import { Canvas, useFrame, useLoader } from '@react-three/fiber'
 import { TextureLoader, MeshBasicMaterial, SRGBColorSpace, PlaneGeometry, Mesh } from 'three'
 import ItemList from "../components/ItemList.tsx"
-import CoverViewer from "../components/CoverViewer.tsx"
 
 function Comic (props) {
     const ref = useRef()
@@ -55,5 +54,3 @@ export default function BrowsePage() {
         </div>
     )
 }
-
-//<color attach="background" args={['000']} /> <CoverViewer comic={}/>

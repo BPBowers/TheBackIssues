@@ -23,9 +23,11 @@ export default function MenuBar() {
                     <input type="text" placeholder="search" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} className="input input-sm input-ghost"/>
                     <button onClick={handleSearch} className="btn btn-ghost btn-sm">enter</button>
                 </div>
-                <div>
-                <Link href='/browse'><button className='btn btn-soft btn-primary'>Browse</button></Link>
-                <Link href='/mycollection'><button className='btn btn-soft btn-secondary'>My Collection</button></Link>
+                <div className="flex space-x-0.5">
+                    <Link href='/browse'><button className='btn btn-soft border-blue-600 text-black-600 bg-gradient-to-br to-blue-600'>Browse</button></Link>
+                    <Link href='/mycollection'><button className='btn btn-soft border-fuchsia-600 text-black-600 bg-gradient-to-br to-fuchsia-600'>My Collection</button></Link>
+                    <Link href='/'><button className='btn btn-soft border-green-700 text-black-700 bg-gradient-to-br to-green-700'>Home</button></Link>
+                    <Link href='/about'><button className='btn btn-soft border-amber-500 text-black-500 bg-gradient-to-br to-amber-500'>About Us</button></Link>
                 </div>
             </div>
         </div>
