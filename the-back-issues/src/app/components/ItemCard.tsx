@@ -1,15 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-
-interface ComicBook {
-    id: number;
-    issue?: number | null;
-    frontCover?: string | null;
-    backCover?: string | null;
-    coverPrice?: number | null;
-    releaseDate?: string | null;
-    seriesTitle?: string | null;
-}
+import type { ComicBook } from "../types/comic" 
 
 interface ItemCardProps {
     comic: ComicBook;
@@ -49,7 +40,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ comic }) => {
                 </div>
                 <div className="card-actions justify-end">
                     <Link href={`/comic/${comic.id}`}>
-                        <button className="btn btn-primary">More info</button>
+                        <button className="btn btn-soft border-blue-600 text-black-600 bg-gradient-to-br to-blue-600 hover:animate-pulse">More info</button>
                     </Link>
                 </div>
             </div>

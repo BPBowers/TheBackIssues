@@ -1,8 +1,9 @@
 'use client'
 import { useEffect, useState } from 'react'
 import ItemCard from './ItemCard'
+import type { ComicBook } from "../types/comic" 
 
-interface ComicBook {
+/*interface ComicBook {
     id: number;
     issue?: number | null;
     frontCover?: string | null;
@@ -12,7 +13,7 @@ interface ComicBook {
     seriesTitle?: string | null;
     publisherName?: string| null;
 }
-
+*/
 export default function ItemList() {
     const [comics, setComics] = useState<ComicBook[]>([])
     const [filteredPublisher, setFilteredPublisher] = useState<string>('')

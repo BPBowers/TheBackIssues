@@ -1,5 +1,6 @@
+//My Collection Page, This will show anylitics and produce an overview of all comics marked as owned
 'use client'
-import {useState, useRef} from 'react'
+import {useState, useRef, useEffect} from 'react'
 
 export default function myCollection(){
 
@@ -9,6 +10,13 @@ export default function myCollection(){
     const handleCountRef = () => {
         countRef.current++;
     }
+
+    useEffect(() => {
+        console.log('The count is: ', count);
+        return () => {
+            console.log('I am being cleaned up!');
+        }
+    }, [count]);
 
     return(
         <div>

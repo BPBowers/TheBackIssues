@@ -21,5 +21,7 @@ export interface ComicBook {
   releaseDate?: string | null;
   seriesTitle?: string | null;
   Series?: Series;
+  publisherName?: string| null;
+  Publisher?: Publisher;
 }
 
