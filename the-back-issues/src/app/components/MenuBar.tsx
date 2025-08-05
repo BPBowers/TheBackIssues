@@ -5,9 +5,9 @@ import Image from 'next/image'
 import { useSession, signIn, signOut} from "next-auth/react";
 import { usePathname } from "next/navigation";
 
-const ACTIVE = "shadow-md underline decoration-blue-500 underline-offset-4";
+const ACTIVE = "btn btn-ghost btn-sm shadow-md underline decoration-blue-500 underline-offset-4";
 const UNACTIVE =
-  "hover:shadow-md hover:underline hover:decoration-blue-500 hover:underline-offset-4";
+  "btn btn-ghost btn-sm hover:shadow-md hover:underline hover:decoration-blue-500 hover:underline-offset-4";
 
 function LoginButton() {
   const { data: session } = useSession();
@@ -50,15 +50,24 @@ export default function MenuBar() {
         <div >
             <div>
                 {/* Header Bar with Logo, Search bar, Profile, Login/Logout */}
-                {/*<Image src={"/../images/logoLight.png"} alt="" width="30" height="30"/>*/}
-                <div className="flex justify-end">
-                    <Link href='profile'><button className='btn btn-ghost btn-sm'>profile{/* Get Logged In User Name */}</button></Link>
-                    <LoginButton/>
+                {/**/}
+                <div className="flex justify-between items-center">
+                    <div className="flex items-center">
+                        <Image src={"/logoDark.png"} alt="Site Logo" width="40" height="40"/>
+                    </div>
+                    <div className="flex justify-end">
+                        <Link href='profile'><button className='btn btn-ghost btn-sm'>profile{/* Get Logged In User Name */}</button></Link>
+                        <LoginButton/>
+                    </div>
+                    <div className="flex justify-end">
+                        <input type="text" placeholder="search" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} className="input input-sm input-ghost"/>
+                        <button onClick={handleSearch} className="btn btn-ghost btn-sm">enter</button>
+                    </div>
                     {/*<Link href='login'><button className='btn btn-ghost btn-sm'>Login/Logout</button></Link>*/}
                 </div>
+                
                 <div className="flex justify-end">
-                    <input type="text" placeholder="search" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} className="input input-sm input-ghost"/>
-                    <button onClick={handleSearch} className="btn btn-ghost btn-sm">enter</button>
+                    
                 </div>
                 <div className="flex space-x-0.5">
                     <Link href='/browse'><button className='btn btn-soft border-blue-600 text-black-600 bg-gradient-to-br to-blue-600 hover:animate-pulse'>Browse</button></Link>
