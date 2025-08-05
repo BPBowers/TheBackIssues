@@ -1,7 +1,43 @@
-'use client'
+"use client";
 import {useState} from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useSession, signIn, signOut} from "next-auth/react";
+import { usePathname } from "next/navigation";
+
+const ACTIVE = "shadow-md underline decoration-blue-500 underline-offset-4";
+const UNACTIVE =
+  "hover:shadow-md hover:underline hover:decoration-blue-500 hover:underline-offset-4";
+
+function LoginButton() {
+  const { data: session } = useSession();
+  const pathname = usePathname();
+
+  if (session) {
+    return (
+      <>
+        <div className="flex gap-7">
+          <button className={pathname === "/profile" ? ACTIVE : UNACTIVE}>
+            <Link href="/profile">{session?.user?.name}</Link>
+          </button>
+          <button className={UNACTIVE} onClick={() => signOut()}>
+            Sign out
+          </button>
+        </div>
+      </>
+    );
+  }
+  return (
+    <>
+      <button
+        className={pathname != "/" ? ACTIVE : UNACTIVE}
+        onClick={() => signIn()}
+      >
+        Sign in
+      </button>
+    </>
+  );
+}
 
 export default function MenuBar() {
    
@@ -17,7 +53,8 @@ export default function MenuBar() {
                 {/*<Image src={"/../images/logoLight.png"} alt="" width="30" height="30"/>*/}
                 <div className="flex justify-end">
                     <Link href='profile'><button className='btn btn-ghost btn-sm'>profile{/* Get Logged In User Name */}</button></Link>
-                    <Link href='login'><button className='btn btn-ghost btn-sm'>Login/Logout</button></Link>
+                    <LoginButton/>
+                    {/*<Link href='login'><button className='btn btn-ghost btn-sm'>Login/Logout</button></Link>*/}
                 </div>
                 <div className="flex justify-end">
                     <input type="text" placeholder="search" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} className="input input-sm input-ghost"/>
