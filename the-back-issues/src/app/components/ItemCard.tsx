@@ -39,7 +39,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ comic }) => {
                     I read this book
                 </div>
                 <div className="card-actions justify-end">
-                    <Link href={`/comic/${comic.id}`}>
+                    <Link href={`/comic/3d/${comic.id}`}>
                         <button className="btn btn-soft border-blue-600 text-black-600 bg-gradient-to-br to-blue-600 hover:animate-pulse">More info</button>
                     </Link>
                 </div>

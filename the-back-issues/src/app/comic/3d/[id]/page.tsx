@@ -3,7 +3,7 @@ import ComicViewer from './ComicViewer'
 
 const prisma = new PrismaClient()
 
-export default async function ComicDetailsPage3d({ params }) {
+export default async function ComicDetailsPage3d({ params }: { params: { id: string}}) {
     const comicId = parseInt(params.id)
     const comic = await prisma.comicBook.findUnique({
         where: {id: comicId},
