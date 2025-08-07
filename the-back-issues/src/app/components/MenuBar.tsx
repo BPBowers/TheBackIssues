@@ -47,33 +47,34 @@ export default function MenuBar() {
     }
 
     return (
-        <div >
+        <div>
             <div>
                 {/* Header Bar with Logo, Search bar, Profile, Login/Logout */}
                 {/**/}
                 <div className="flex justify-between items-center">
                     <div className="flex items-center">
-                        <Image src={"/logoDark.png"} alt="Site Logo" width="40" height="40"/>
+                        <Link href='/'><Image src={"/logoDark.png"} alt="Site Logo" width="40" height="40" className="hover:animate-pulse"/></Link>
                     </div>
                     <div className="flex justify-end">
                         <Link href='profile'><button className='btn btn-ghost btn-sm'>profile{/* Get Logged In User Name */}</button></Link>
                         <LoginButton/>
+                        <div className="flex justify-end">
+                          <input type="text" placeholder="search" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} className="input input-sm input-ghost"/>
+                          <button onClick={handleSearch} className="btn btn-ghost btn-sm">enter</button>
+                        </div>
                     </div>
-                    <div className="flex justify-end">
-                        <input type="text" placeholder="search" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} className="input input-sm input-ghost"/>
-                        <button onClick={handleSearch} className="btn btn-ghost btn-sm">enter</button>
-                    </div>
+                    
                     {/*<Link href='login'><button className='btn btn-ghost btn-sm'>Login/Logout</button></Link>*/}
                 </div>
                 
                 <div className="flex justify-end">
                     
                 </div>
-                <div className="flex space-x-0.5">
-                    <Link href='/browse'><button className='btn btn-soft border-blue-600 text-black-600 bg-gradient-to-br to-blue-600 hover:animate-pulse'>Browse</button></Link>
-                    <Link href='/mycollection'><button className='btn btn-soft border-fuchsia-600 text-black-600 bg-gradient-to-br to-fuchsia-600 hover:animate-pulse'>My Collection</button></Link>
-                    <Link href='/'><button className='btn btn-soft border-green-700 text-black-700 bg-gradient-to-br to-green-700 hover:animate-pulse'>Home</button></Link>
-                    <Link href='/about'><button className='btn btn-soft border-amber-500 text-black-500 bg-gradient-to-br to-amber-500 hover:animate-pulse'>About Us</button></Link>
+                <div className="flex justify-center space-x-3">
+                    <Link href='/browse'><button className='btn btn-soft border-blue-600 text-black-600 bg-gradient-to-br to-blue-600 hover:animate-pulse w-31'>Browse</button></Link>
+                    <Link href='/buy'><button className='btn btn-soft border-green-700 text-black-700 bg-gradient-to-br to-green-700 hover:animate-pulse w-31'>Buy</button></Link>
+                    <Link href='/mycollection'><button className='btn btn-soft border-fuchsia-600 text-black-600 bg-gradient-to-br to-fuchsia-600 hover:animate-pulse w-31'>My Collection</button></Link>
+                    <Link href='/about'><button className='btn btn-soft border-amber-500 text-black-500 bg-gradient-to-br to-amber-500 hover:animate-pulse w-31'>About Us</button></Link>
                 </div>
             </div>
         </div>
