@@ -56,6 +56,7 @@ export default function AddComic() {
 
       <input type="number" placeholder="Issue #" value={issue} onChange={(e) => setIssue(e.target.value)} required/>
       <input type="date" value={releaseDate} onChange={(e) => setReleaseDate(e.target.value)} required/>
+      <input type="number" placeholder="Cover Price $" value={coverPrice} onChange={(e) => setCoverPrice(e.target.value)}/>
       <label>Front Cover:</label>
       <input type="file" accept="image/*" onChange={(e) => {
         if (e.target.files?.[0]) handleImageUpload(e.target.files[0], setFrontCover)

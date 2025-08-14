@@ -54,6 +54,7 @@ export default function MenuBar() {
                 <div className="flex justify-between items-center">
                     <div className="flex items-center">
                         <Link href='/'><Image src={"/logoDark.png"} alt="Site Logo" width="40" height="40" className="hover:animate-pulse"/></Link>
+                        The BackIssues
                     </div>
                     <div className="flex justify-end">
                         <Link href='profile'><button className='btn btn-ghost btn-sm'>profile{/* Get Logged In User Name */}</button></Link>

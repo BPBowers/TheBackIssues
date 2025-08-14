@@ -28,7 +28,10 @@ const SimpleComic: React.FC<SimpleComicProps> = ({ comic }) => {
 
     return (
         <div>
-            <Image src={currentImage} alt="Cover" width={200} height={300} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}/>
+            {/*<Image src={currentImage} alt="Cover" width={200} height={300} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}/>*/}
+            <Link href={`/comic/3d/${comic.id}`}>
+                <Image src={imgSrcF} alt="Cover" width={200} height={300}/>
+            </Link>
         </div>
     )
 }
