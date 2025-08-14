@@ -1,8 +1,32 @@
 //ComicBook API Route
+// ROUTE src/app/api/comic/route.tsx
 
+import { NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient();
+
+export async function POST(req: Request) {
+  try {
+    const { issue, frontCover, backCover, coverPrice, releaseDate, seriesId } = await req.json() 
+    
+    const newComic = await prisma.comicBook.create({
+      data: {
+        issue: Number(issue),
+        frontCover: frontCover ? Buffer.from(frontCover, 'base64') : null,
+        backCover: backCover ? Buffer.from(backCover, 'base64') : null,
+        coverPrice: coverPrice ? Number(coverPrice) : null,
+        releaseDate: new Date(releaseDate),
+        Series: { connect: {id: Number(seriesId)}},
+      },
+    })
+
+    return NextResponse.json(newComic, { status: 201 })
+  } catch (error) {
+    console.error(error)
+    return NextResponse.json({ error: 'Failed to add comic' }, { status: 500 })
+  }
+}
 
 export async function GET() {
   const comics = await prisma.comicBook.findMany({

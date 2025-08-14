@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from 'next/link';
 import ProductCard from "./components/ProductCard";
+import HomePageNewComics from "./components/HomePageNewComics";
 
 export default function Home() {
   return (
@@ -12,6 +13,9 @@ export default function Home() {
       <h2>
         <Link href="users">To Users Page</Link>
       </h2>
+      <div>
+        {/*<HomePageNewComics/>*/}
+      </div>
       <div className='p-5 my-5 bg-amber-500 text-white text-xl hover:bg-amber-300 hover:'>
         This is a tailwind test line
       </div>

@@ -3,17 +3,6 @@ import { useEffect, useState } from 'react'
 import ItemCard from './ItemCard'
 import type { ComicBook } from "../types/comic" 
 
-/*interface ComicBook {
-    id: number;
-    issue?: number | null;
-    frontCover?: string | null;
-    backCover?: string | null;
-    coverPrice?: number | null;
-    releaseDate?: string | null;
-    seriesTitle?: string | null;
-    publisherName?: string| null;
-}
-*/
 export default function ItemList() {
     const [comics, setComics] = useState<ComicBook[]>([])
     const [filteredPublisher, setFilteredPublisher] = useState<string>('')

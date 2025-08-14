@@ -48,7 +48,7 @@ export default function MenuBar() {
 
     return (
         <div>
-            <div>
+            <div className="px-5">
                 {/* Header Bar with Logo, Search bar, Profile, Login/Logout */}
                 {/**/}
                 <div className="flex justify-between items-center">
