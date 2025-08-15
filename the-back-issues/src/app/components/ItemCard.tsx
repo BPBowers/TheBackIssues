@@ -16,16 +16,17 @@ const ItemCard: React.FC<ItemCardProps> = ({ comic }) => {
     const displayCoverPrice = comic.coverPrice != null ? `$${Number(comic.coverPrice).toFixed(2)}` : 'N/A'
 
     return (
-        <div className="border card card-side bg-base-100 shadow-sm motion-opacity-in-0 motion-scale-in-0 hover:motion-opacity-in-100 hover:motion-scale-in-100 transition-all duration-300">
+        <div className="border-amber-700 border card card-side bg-base-100 shadow-sm motion-opacity-in-0 motion-scale-in-0 hover:motion-opacity-in-100 hover:motion-scale-in-100 transition-all duration-300">
             <img width="200vw" height="270vw" 
             src={imgSrc}
             alt="Comic Name" />
             <div className="card-body">
                 <h2 className="card-title">{comic.seriesTitle || 'Unknown'} {displayIssue}</h2>
-                <p className="font-bold">Writer</p>
-                <p className="font-bold">Artist</p>
-                <p className="font-bold">Release Date: {displayReleaseYear}</p>
-                <p className="font-bold">Cover Price: {displayCoverPrice}</p>
+                <p className="font-bold">Publisher:  <span className="font-normal ">{comic.publisherName || 'Unknown'}</span></p>
+                <p className="font-bold">Writer(s): <span className="font-normal"></span></p>
+                <p className="font-bold">Artist(s): <span className="font-normal"></span></p>
+                <p className="font-bold">Release Year: <span className="font-normal">{displayReleaseYear}</span></p>
+                <p className="font-bold">Cover Price: <span className="font-normal">{displayCoverPrice}</span></p>
                 <div className="card-actions justify-self-end-safe">
                     <input id="default-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"/>
                     I own this book
