@@ -30,20 +30,25 @@ export default function HomePageNewComics() {
     }
 
     return (
-        <div style={{ display: 'flex', alignItems: 'center'}}>
-            <button onClick={handlePrev} disabled={startIndex === 0}>
-                ◀
-            </button>
-            <ul style={{ display: 'flex', gap: '1rem', listStyle: 'none'}}>
-                {displayedComics.map((comic) => (
-                    <li key={comic.id}>
-                        <SimpleComic comic={comic}/>
-                    </li>
-                ))}
-            </ul>
-            <button onClick={handleNext} disabled={startIndex >= sortedComics.length - 5}>
-              ▶  
-            </button>
+        <div>
+                <div className="flex justify-center text-2xl font-bold font-serif">
+                    New Comics!
+                </div>
+            <div  style={{ display: 'flex', alignItems: 'center'}}>
+                <button onClick={handlePrev} disabled={startIndex === 0} className="hover:text-amber-400">
+                    ◀
+                </button>
+                <ul style={{ display: 'flex', gap: '1rem', listStyle: 'none'}}>
+                    {displayedComics.map((comic) => (
+                        <li key={comic.id}>
+                            <SimpleComic comic={comic}/>
+                        </li>
+                    ))}
+                </ul>
+                <button onClick={handleNext} disabled={startIndex >= sortedComics.length - 5} className="hover:text-amber-400">
+                ▶  
+                </button>
+            </div>
         </div>
     )
 }

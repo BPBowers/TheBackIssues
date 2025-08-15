@@ -47,7 +47,7 @@ export default function MenuBar() {
     }
 
     return (
-        <div>
+        <div className="bg-base-100">
             <div className="px-5">
                 {/* Header Bar with Logo, Search bar, Profile, Login/Logout */}
                 {/**/}
@@ -71,11 +71,11 @@ export default function MenuBar() {
                 <div className="flex justify-end">
                     
                 </div>
-                <div className="flex justify-center space-x-3">
-                    <Link href='/browse'><button className='btn btn-soft border-blue-600 text-black-600 bg-gradient-to-br to-blue-600 hover:animate-pulse w-31'>Browse</button></Link>
-                    <Link href='/buy'><button className='btn btn-soft border-green-700 text-black-700 bg-gradient-to-br to-green-700 hover:animate-pulse w-31'>Buy</button></Link>
-                    <Link href='/mycollection'><button className='btn btn-soft border-fuchsia-600 text-black-600 bg-gradient-to-br to-fuchsia-600 hover:animate-pulse w-31'>My Collection</button></Link>
-                    <Link href='/about'><button className='btn btn-soft border-amber-500 text-black-500 bg-gradient-to-br to-amber-500 hover:animate-pulse w-31'>About Us</button></Link>
+                <div className="flex justify-center sm:space-x-3 md:space-x-10">
+                    <Link href='/browse'><button className='btn btn-circle border-amber-500 text-black-600 bg-gradient-to-br to-amber-500 hover:to-amber-300 hover:scale-110 ease-in-out transition-all duration-300 w-31'>Browse</button></Link>
+                    <Link href='/buy'><button className='btn btn-soft border-amber-500 text-black-700 bg-gradient-to-br to-amber-500 hover:to-amber-300 hover:scale-110 ease-in-out transition-all duration-300 w-31'>Buy</button></Link>
+                    <Link href='/mycollection'><button className='btn btn-soft border-amber-500 text-black-600 bg-gradient-to-br to-amber-500 hover:to-amber-300 hover:scale-110 ease-in-out transition-all duration-300 w-31'>My Collection</button></Link>
+                    <Link href='/about'><button className='btn btn-circle border-amber-500 text-black-500 bg-gradient-to-br to-amber-500 hover:to-amber-300 hover:scale-110 ease-in-out transition-all duration-300 w-31'>About Us</button></Link>
                 </div>
             </div>
         </div>

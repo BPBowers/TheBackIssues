@@ -8,13 +8,12 @@ export default function Home() {
   return (
     <main>
       <div>
-        <div className='p-5 my-5 bg-amber-500 text-white text-xl hover:bg-amber-300 hover:'>
-        </div>
         <div className="flex justify-center">
           <HomePageNewComics/>
         </div>
-        <div className='p-5 my-5 bg-amber-500 text-white text-xl hover:bg-amber-300 hover:'>
-          
+        <div className="flex justify-center">
+          {/*Staff Picks*/}
+          <HomePageNewComics/>
         </div>
       </div>  
     </main>

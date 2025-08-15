@@ -16,7 +16,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ comic }) => {
     const displayCoverPrice = comic.coverPrice != null ? `$${Number(comic.coverPrice).toFixed(2)}` : 'N/A'
 
     return (
-        <div className="border card card-side bg-base-100 shadow-sm">
+        <div className="border card card-side bg-base-100 shadow-sm motion-opacity-in-0 motion-scale-in-0 hover:motion-opacity-in-100 hover:motion-scale-in-100 transition-all duration-300">
             <img width="200vw" height="270vw" 
             src={imgSrc}
             alt="Comic Name" />

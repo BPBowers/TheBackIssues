@@ -41,7 +41,17 @@ export async function GET() {
             }
         }
       }
-    }
+    },
+    orderBy: [
+      {
+        Series: {
+          title: 'asc',
+        },
+      },
+      {
+        issue: 'asc',
+      },
+    ],
   });
   const comicWithBase64 = comics.map(comic => ({
     id: comic.id, issue: comic.issue,

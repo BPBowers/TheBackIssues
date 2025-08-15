@@ -4,6 +4,7 @@ import SessionProvider from "./components/SessionProvider";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import MenuBar from "./components/MenuBar";
+import TailMenu from "./components/TailMenu";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -33,8 +34,11 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SessionProvider session={session}>
-          <MenuBar />
+          <div>
+          <MenuBar/>
+          </div>
           {children}
+          <TailMenu/>
         </SessionProvider>
       </body>
     </html>
