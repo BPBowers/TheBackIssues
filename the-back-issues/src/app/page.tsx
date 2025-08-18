@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from 'next/link';
 import ProductCard from "./components/ProductCard";
 import HomePageNewComics from "./components/HomePageNewComics";
+import HomePageRandomSeries from "./components/HomePageRandomSeries"
 
 export default function Home() {
   return (
@@ -13,7 +14,7 @@ export default function Home() {
         </div>
         <div className="flex justify-center">
           {/*Staff Picks*/}
-          <HomePageNewComics/>
+          <HomePageRandomSeries/>
         </div>
       </div>  
     </main>

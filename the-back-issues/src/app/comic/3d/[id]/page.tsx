@@ -58,10 +58,8 @@ export default async function ComicDetailsPage3d({ params }: { params: { id: str
             </h1>
         <ComicViewer frontCover={frontCover}/>
         <ItemCard comic={formattedComic}/>
-        <p><strong>Publisher:</strong> {comic.Series?.Publisher?.name || 'Unknown'}</p>
-            <p><strong>Cover Price:</strong> ${comic.coverPrice?.toFixed(2)}</p>
-            <p><strong>Release Date:</strong> {comic.releaseDate?.toString().slice(0, 15)}</p>
-            {/*Update Comic Cover*/}
+        <p><strong>Release Date:</strong> {comic.releaseDate?.toString().slice(0, 15)}</p>
+        {/*Update Comic Cover*/}
         </div>
     )
 }
