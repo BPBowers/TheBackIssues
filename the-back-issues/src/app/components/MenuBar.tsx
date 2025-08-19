@@ -73,7 +73,7 @@ export default function MenuBar() {
                 </div>
                 <div className="flex justify-center sm:space-x-3 md:space-x-10">
                     <Link href='/browse'><button className='btn btn-circle border-amber-500 text-black-600 bg-gradient-to-br to-amber-500 hover:to-amber-300 hover:scale-110 ease-in-out transition-all duration-300 w-31'>Browse</button></Link>
-                    <Link href='/buy'><button className='btn btn-soft border-amber-500 text-black-700 bg-gradient-to-br to-amber-500 hover:to-amber-300 hover:scale-110 ease-in-out transition-all duration-300 w-31'>Buy</button></Link>
+                    <Link href='/trade'><button className='btn btn-soft border-amber-500 text-black-700 bg-gradient-to-br to-amber-500 hover:to-amber-300 hover:scale-110 ease-in-out transition-all duration-300 w-31'>Trade</button></Link>
                     <Link href='/about'><button className='btn btn-soft border-amber-500 text-black-500 bg-gradient-to-br to-amber-500 hover:to-amber-300 hover:scale-110 ease-in-out transition-all duration-300 w-31'>About Us</button></Link>
                     <Link href='/mycollection'><button className='btn btn-circle border-amber-500 text-black-600 bg-gradient-to-br to-amber-500 hover:to-amber-300 hover:scale-110 ease-in-out transition-all duration-300 w-31'>My Collection</button></Link>
                 </div>

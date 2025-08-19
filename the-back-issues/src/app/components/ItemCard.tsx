@@ -37,7 +37,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ comic }) => {
                 </div>
                 <div className="card-actions justify-self-end-safe">
                     <input id="default-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"/>
-                    I read this book
+                    Looking to trade this book
                 </div>
                 <div className="card-actions justify-end">
                     <Link href={`/comic/3d/${comic.id}`}>
