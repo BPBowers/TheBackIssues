@@ -32,7 +32,7 @@ export default function HomePageNewComics() {
     return (
         <div>
                 <div className="flex justify-center text-2xl font-bold font-serif">
-                    New Comics!
+                    New Releases!
                 </div>
             <div  style={{ display: 'flex', alignItems: 'center'}}>
                 <button onClick={handlePrev} disabled={startIndex === 0} className="hover:text-amber-400">
