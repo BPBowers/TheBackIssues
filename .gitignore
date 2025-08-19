@@ -34,3 +34,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# database
+/the-back-issues/BackIssuesDatabase.db
+/the-back-issues/comic.db
