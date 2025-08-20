@@ -1,13 +1,42 @@
-import React from 'react'
+"use client"
+
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import type { ComicBook } from "../types/comic" 
+import type { ComicBook } from "../types/comic"
+import { useSession } from "next-auth/react"
+import ComicDetailsPage from '../comic/[id]/page'
 
 interface ItemCardProps {
     comic: ComicBook;
 }
 
 const ItemCard: React.FC<ItemCardProps> = ({ comic }) => {
-    
+    const { data: session } = useSession()
+    const [owns, setOwns] = useState(false)
+    const [wants, setWants] = useState(false)
+
+    //Fetch want and own state from API
+    useEffect(() => {
+        if(!session?.user?.id) return
+        fetch(`/api/comic/${comic.id}/status`)
+            .then(res => res.json())
+            .then(data => {
+                setOwns(data.owns)
+                setWants(data.wants)
+            })
+    }, [comic.id, session?.user?.id])
+
+    //Owns & Wants Handlers
+    const toggleOwn = async () => {
+        const res = await fetch(`/api/comic/${comic.id}/own`, {method: "POST"})
+        if(res.ok) setOwns(!owns)
+    }
+
+    const toggleWant = async () => {
+        const res = await fetch(`/api/comic/${comic.id}/want`, { method: "POST"})
+        if (res.ok) setWants(!wants)
+    }
+
     const base64Cover = comic?.frontCover || '';
     const imgSrc = base64Cover ? `data:image/jpeg;base64,${base64Cover}` : 'https://cdn.marvel.com/u/prod/marvel/i/mg/4/20/56966d674b06d/clean.jpg';
 
@@ -28,11 +57,11 @@ const ItemCard: React.FC<ItemCardProps> = ({ comic }) => {
                 <p className="font-bold">Release Year: <span className="font-normal">{displayReleaseYear}</span></p>
                 <p className="font-bold">Cover Price: <span className="font-normal">{displayCoverPrice}</span></p>
                 <div className="card-actions justify-self-end-safe">
-                    <input id="default-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"/>
+                    <input id="default-checkbox" type="checkbox" checked={owns} onChange={toggleOwn} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"/>
                     I own this book
                 </div>
                 <div className="card-actions justify-self-end-safe">
-                    <input id="default-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"/>
+                    <input id="default-checkbox" type="checkbox" checked={wants} onChange={toggleWant} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"/>
                     I want this book
                 </div>
                 <div className="card-actions justify-self-end-safe">

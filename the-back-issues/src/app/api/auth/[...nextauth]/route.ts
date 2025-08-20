@@ -20,21 +20,50 @@ export const authOptions = {
   },
 
   callbacks: {
-    async signIn({ user }) {
+    async signIn({ user, account }) {
       if (!user.email) return false
 
-      await prisma.user.upsert({
+      // 1. Upsert the user into Users table
+      const dbUser = await prisma.user.upsert({
         where: { email: user.email },
         update: {
-          username: user.name ?? undefined,
+          name: user.name ?? undefined,
           image: user.image ?? undefined,
         },
         create: {
           email: user.email,
-          username: user.name ?? undefined,
+          name: user.name ?? "Unnamed",
           image: user.image ?? undefined,
         },
       })
+
+      // 2. Ensure OAuth account is linked to that user
+      if (account) {
+        await prisma.account.upsert({
+          where: {
+            provider_providerAccountId: {
+              provider: account.provider,
+              providerAccountId: account.providerAccountId,
+            },
+          },
+          update: {
+            access_token: account.access_token,
+            token_type: account.token_type,
+            scope: account.scope,
+            id_token: account.id_token,
+          },
+          create: {
+            userId: dbUser.id,
+            type: account.type,
+            provider: account.provider,
+            providerAccountId: account.providerAccountId,
+            access_token: account.access_token,
+            token_type: account.token_type,
+            scope: account.scope,
+            id_token: account.id_token,
+          },
+        })
+      }
 
       return true
     },
