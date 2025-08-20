@@ -1,9 +1,9 @@
-import ItemList from "../components/ItemList.tsx"
+import OwnedItemList from "../components/OwnedItemList.tsx"
 
 export default function MyCollectionPage() {
     return (
         <div className="p-5">
-            <ItemList />
+            <OwnedItemList />
         </div>
     )
 }

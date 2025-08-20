@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import type { ComicBook } from "../types/comic"
 import { useSession } from "next-auth/react"
-import ComicDetailsPage from '../comic/[id]/page'
 
 interface ItemCardProps {
     comic: ComicBook;
