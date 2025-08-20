@@ -7,7 +7,8 @@ export default function ItemList() {
     const [comics, setComics] = useState<ComicBook[]>([])
     const [filteredPublisher, setFilteredPublisher] = useState<string>('')
     const [filteredSeries, setFilteredSeries] = useState<string>('')
-    
+    const [filteredYear, setFilteredYear] = useState<string>('')
+
     useEffect(() => {
         fetch('/api/comic')
         .then(res => res.json())
@@ -28,16 +29,31 @@ export default function ItemList() {
                 .filter(Boolean)
     )]
 
-    const visibleComics = comics.filter(c =>
+    const availableYears = [
+        ...new Set(
+            comics
+                .filter(c =>
+                    (!filteredPublisher || c.publisherName === filteredPublisher)
+                    && (!filteredSeries || c.seriesTitle == filteredSeries)
+                ).map(c => new Date(c.releaseDate).getFullYear().toString())
+                .filter(Boolean)
+        )
+    ].sort((a, b) => a - b)
+
+    const visibleComics = comics.filter(c => {
+        const year = new Date(c.releaseDate).getFullYear().toString()
+        return (
         (!filteredPublisher || c.publisherName === filteredPublisher)
         && (!filteredSeries || c.seriesTitle === filteredSeries)
-    )
+        && (!filteredYear || year === filteredYear)
+        )
+    })
 
     return (
         <div>
             
             {/* Filter Controls */}
-            <div className="flex gap-4 mb-6">
+            <div className="flex justify-center gap-4 mb-6">
                 <select
                     className="select select-bordered w-full max-w-xs"
                     value={filteredPublisher}
@@ -61,6 +77,16 @@ export default function ItemList() {
                     {availableSeries.map(s => (
                     <option key={s} value={s}>{s}</option>
                     ))}
+                </select>
+                <select
+                    className="select select-bordered w-full max-w-xs"
+                    value={filteredYear}
+                    onChange={(e) => setFilteredYear(e.target.value)}
+                >
+                    <option value="">All Years</option>
+                    {availableYears.map(y => (
+                    <option key={y} value={y}>{y}</option>
+                ))}
                 </select>
             </div>
             <ul>

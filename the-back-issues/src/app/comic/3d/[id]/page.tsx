@@ -5,8 +5,11 @@ import type { ComicBook } from "../../../types/comic"
 
 const prisma = new PrismaClient()
 
-export default async function ComicDetailsPage3d({ params }: { params: { id: string}}) {
-    const comicId = parseInt(params.id)
+export default async function ComicDetailsPage3d(
+    context: { params: Promise<{ id: string}>}
+) {
+    const { id } = await context.params
+    const comicId = parseInt(id)
     const comic = await prisma.comicBook.findUnique({
         where: {id: comicId},
         include: {
