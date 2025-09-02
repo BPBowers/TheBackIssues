@@ -11,7 +11,7 @@ export default function TradeBoard() {
   if (!trades.length) return <p>No trades available.</p>;
 
   return (
-    <div className="grid gap-4">
+    <div className="grid justify-center gap-4 p-4">
       {trades.map((trade) => (
         <TradeCard key={trade.id} trade={trade} />
       ))}

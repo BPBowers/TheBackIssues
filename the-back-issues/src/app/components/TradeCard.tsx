@@ -1,78 +1,159 @@
 // src/app/components/TradeCard.tsx
 "use client";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
-import type { ComicBook } from '../type/comic';
+import { useEffect, useState } from "react";
 
 export default function TradeCard({ trade }: { trade: any }) {
   const router = useRouter();
+
+  const [offerIndex, setOfferIndex] = useState(0);
+  const [wantIndex, setWantIndex] = useState(0);
+  const [showOfferModal, setShowOfferModal] = useState(false);
+  const [showWantModal, setShowWantModal] = useState(false);
+
+
+  // Cycle offers every 2s
+  useEffect(() => {
+    if (showOfferModal) return;
+    const interval = setInterval(() => {
+      setOfferIndex((prev) => (prev + 1) % trade.offers.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [trade.offers.length]);
+
+  // Cycle wants every 2s
+  useEffect(() => {
+    if (showWantModal) return;
+    const interval = setInterval(() => {
+      setWantIndex((prev) => (prev + 1) % trade.wants.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [trade.wants.length]);
 
   const MAX_WANTS_DISPLAY = 5;
   const wantsToShow = trade.wants.slice(0, MAX_WANTS_DISPLAY);
   const wantsRemaining = trade.wants.length - MAX_WANTS_DISPLAY;
 
   return (
-    <div className="border-amber-700 border card card-side bg-base-100 shadow-sm motion-opacity-in-0 motion-scale-in-0 hover:motion-opacity-in-100 hover:motion-scale-in-100 transition-all duration-300 text-white">
-      <h3 className="text-lg font-semibold">{trade.user?.name ?? "Anonymous"}</h3>
-      <p className="text-sm text-gray-500">{trade.location}</p>
+    <div className="relative flex items-center justify-between border border-amber-700 bg-base-100 shadow-sm rounded-xl text-white w-200 h-45">
 
-      {/* Offers */}
-      <div className="mt-3">
-        <p className="font-medium">Offers:</p>
-        <div className="flex gap-2 mt-2 overflow-x-auto">
-          {trade.offers.map((o: any) => (
-            <div key={o.id} className="w-20 flex-shrink-0 text-center">
-              {o.comicBook.frontCover ? (
-                <Image
-                  src={`data:image/jpeg;base64,${o.comicBook.frontCover}`}
-                  alt={`${o.comicBook.series?.title} #${o.comicBook.issue}`}
-                  width={80}
-                  height={120}
-                  className="rounded-lg shadow-sm object-cover"
-                />
-              ) : (
-                <div className="w-20 h-28 bg-gray-200 rounded-lg flex items-center justify-center text-xs text-gray-500">
-                  No Cover
-                </div>
-              )}
-              <p className="text-xs mt-1">
-                {o.comicBook.series?.title} #{o.comicBook.issue} (x{o.quantity})
-              </p>
+      {/* Left Cover Cycler (Offers) */}
+      <div
+        className="w-28 cursor-pointer"
+        onMouseEnter={() => setShowOfferModal(true)}
+        onMouseLeave={() => setShowOfferModal(false)}
+      >
+        {trade.offers.length > 0 && (
+          <img
+            src={`data:image/jpeg;base64,${trade.offers[offerIndex].comicBook.frontCover}`}
+            alt={`${trade.offers[offerIndex].comicBook.series?.title} #${trade.offers[offerIndex].comicBook.issue}`}
+            className="rounded-lg shadow-md object-cover w-full"
+          />
+        )}
+
+        {/* Modal with arrows */}
+        {showOfferModal && (
+          <div className="absolute top-0 left-0 bg-black/80 p-4 rounded-xl shadow-lg z-20 w-72">
+            <div className="flex items-center justify-between">
+              <button
+                onClick={() =>
+                  setOfferIndex(
+                    (offerIndex - 1 + trade.offers.length) % trade.offers.length
+                  )
+                }
+                className="px-2 text-lg"
+              >
+                ◀
+              </button>
+              <img
+                src={`data:image/jpeg;base64,${trade.offers[offerIndex].comicBook.frontCover}`}
+                alt="Offer cover"
+                className="rounded-lg shadow-md object-cover w-48"
+              />
+              <button
+                onClick={() =>
+                  setOfferIndex((offerIndex + 1) % trade.offers.length)
+                }
+                className="px-2 text-lg"
+              >
+                ▶
+              </button>
             </div>
-          ))}
+          </div>
+        )}
+      </div>
+
+      {/* Center Info */}
+      <div className="flex-1 text-center px-4">
+        <p className="text-lg font-semibold">{trade.user?.name ?? "Anonymous"}</p>
+        <p className="text-sm text-gray-400">{trade.location}</p>
+
+        <div className="mt-3">
+          <p className="font-medium">{trade.message}</p>
+        </div>
+
+        {/* Buttons */}
+        <div className="mt-4 flex gap-2 justify-center">
+          <button
+            onClick={() => router.push(`/trades/${trade.id}`)}
+            className="bg-blue-500 text-white px-3 py-1 rounded-lg"
+          >
+            View
+          </button>
+          {!trade.exactMatch && (
+            <button
+              onClick={() => router.push(`/trades/${trade.id}/counter`)}
+              className="bg-green-500 text-white px-3 py-1 rounded-lg"
+            >
+              Create a Counter Offer
+            </button>
+          )}
         </div>
       </div>
 
-      {/* Wants */}
-      <div className="mt-4">
-        <p className="font-medium">Wants:</p>
-        <ul className="list-disc list-inside text-sm mt-1">
-          {wantsToShow.map((w: any) => (
-            <li key={w.id}>
-              {w.comicBook.series?.title} #{w.comicBook.issue} (x{w.quantity})
-            </li>
-          ))}
-          {wantsRemaining > 0 && (
-            <li className="text-gray-500">+ {wantsRemaining} more</li>
-          )}
-        </ul>
-      </div>
+      {/* Right Cover Cycler (Wants) */}
+      <div
+        className="w-28 cursor-pointer"
+        onMouseEnter={() => setShowWantModal(true)}
+        onMouseLeave={() => setShowWantModal(false)}
+      >
+        {trade.wants.length > 0 && (
+          <img
+            src={`data:image/jpeg;base64,${trade.wants[wantIndex].comicBook.frontCover}`}
+            alt={`${trade.wants[wantIndex].comicBook.series?.title} #${trade.wants[wantIndex].comicBook.issue}`}
+            className="rounded-lg shadow-md object-cover w-full"
+          />
+        )}
 
-      {/* Buttons */}
-      <div className="mt-4 flex gap-2">
-        <button
-          onClick={() => router.push(`/trades/${trade.id}`)}
-          className="bg-blue-500 text-white px-3 py-1 rounded-lg"
-        >
-          View
-        </button>
-        {!trade.exactMatch && (
-          <button
-            onClick={() => router.push(`/trades/${trade.id}/counter`)}
-            className="bg-green-500 text-white px-3 py-1 rounded-lg"
-          >
-            Create a Counter Offer
-          </button>
+        {/* Modal with arrows */}
+        {showWantModal && (
+          <div className="absolute top-0 right-0 bg-black/80 p-4 rounded-xl shadow-lg z-20 w-72">
+            <div className="flex items-center justify-between">
+              <button
+                onClick={() =>
+                  setWantIndex(
+                    (wantIndex - 1 + trade.wants.length) % trade.wants.length
+                  )
+                }
+                className="px-2 text-lg"
+              >
+                ◀
+              </button>
+              <img
+                src={`data:image/jpeg;base64,${trade.wants[wantIndex].comicBook.frontCover}`}
+                alt="Want cover"
+                className="rounded-lg shadow-md object-cover w-48"
+              />
+              <button
+                onClick={() =>
+                  setWantIndex((wantIndex + 1) % trade.wants.length)
+                }
+                className="px-2 text-lg"
+              >
+                ▶
+              </button>
+            </div>
+          </div>
         )}
       </div>
     </div>
