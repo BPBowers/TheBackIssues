@@ -2,7 +2,7 @@
 "use client";
 
 import { useTrade } from "../hooks/useTrade";
-import TradePostCard from "./TradeCard";
+import TradeCard from "./TradeCard";
 
 export default function TradeBoard() {
   const { trades, loading } = useTrade();
@@ -13,7 +13,7 @@ export default function TradeBoard() {
   return (
     <div className="grid gap-4">
       {trades.map((trade) => (
-        <TradePostCard key={trade.id} trade={trade} />
+        <TradeCard key={trade.id} trade={trade} />
       ))}
     </div>
   );

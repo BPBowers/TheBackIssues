@@ -66,7 +66,7 @@ const submit = async (e: React.FormEvent) => {
   setExactMatch(true);
 };
   return (
-    <form onSubmit={submit} className="p-4 border rounded-xl bg-white shadow-md">
+    <form onSubmit={submit} className="p-4 border rounded-xl bg-white shadow-md text-black">
       <h2 className="text-xl font-bold mb-4">Create a Trade</h2>
 
       <label className="block mb-2">

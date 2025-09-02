@@ -25,7 +25,29 @@ export async function GET(req: Request) {
         orderBy: { createdAt: "desc"},
     });
 
-    return NextResponse.json(trades);
+    const serializedTrades = trades.map((t) => ({
+        ...t,
+        offers: t.offers.map((o) => ({
+            ...o,
+            comicBook: {
+                ...o.comicBook,
+                frontCover: o.comicBook.frontCover
+                ? Buffer.from(o.comicBook.frontCover).toString("base64")
+                : null,
+            },
+        })),
+        wants: t.wants.map((w) => ({
+            ...w,
+            comicBook: {
+                ...w.comicBook,
+                frontCover: w.comicBook.frontCover
+                ? Buffer.from(w.comicBook.frontCover).toString("base64")
+                : null,
+            },
+        })),
+    }));
+
+    return NextResponse.json(serializedTrades);
 }
 
 //Post a new trade post
