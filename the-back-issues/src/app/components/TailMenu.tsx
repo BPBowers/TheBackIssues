@@ -20,7 +20,7 @@ export default function TailMenu() {
                     <Link href="../contact">Contact</Link>
                 </div>
             </div>
-            <div className="p-2 flex justify-center text-sm font-thin">
+            <div className="flex justify-center text-sm font-thin p-2">
                 All comics are trademark and subject to their Publishers and their parent comapnies. The Back Issues claims no ownership over the intellectual property represented on this site.
             </div>
             <div className="flex justify-center p-2">

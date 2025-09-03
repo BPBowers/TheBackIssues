@@ -3,6 +3,8 @@
 
 import { NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '../auth/[...nextauth]/route'
 
 const prisma = new PrismaClient();
 
@@ -29,18 +31,19 @@ export async function POST(req: Request) {
 }
 
 export async function GET() {
+  const session = await getServerSession(authOptions)
+  const userId = session?.user?.id
+  
   const comics = await prisma.comicBook.findMany({
     include: {
       Series: {
         select: {
           title: true,
-            Publisher: {
-              select: {
-                name: true
-              }
-            }
-        }
-      }
+            Publisher: { select: { name: true } },
+        },
+      },
+        UserOwns: userId ? { where: { userId }, select: { userId: true} } : false,
+        UserWants: userId ? { where: { userId }, select: { userId: true } } : false
     },
     orderBy: [
       {
@@ -59,7 +62,9 @@ export async function GET() {
     backCover: comic.backCover ? Buffer.from(comic.backCover).toString('base64') : null,
     coverPrice: comic.coverPrice, releaseDate: comic.releaseDate,
     seriesTitle: comic.Series?.title || 'Unknown Series',
-    publisherName: comic.Series?.Publisher?.name || 'Unknown Publisher'
+    publisherName: comic.Series?.Publisher?.name || 'Unknown Publisher',
+    owns: userId ? comic.UserOwns.length > 0 : false,
+    wants: userId ? comic.UserWants.length > 0 : false,
   }));
 
   return Response.json(comicWithBase64)

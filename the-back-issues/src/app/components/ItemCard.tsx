@@ -1,4 +1,4 @@
-// src
+// src/app/components/ItemCard.tsx
 "use client"
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
@@ -6,16 +6,18 @@ import type { ComicBook } from "../types/comic"
 import { useSession } from "next-auth/react"
 
 interface ItemCardProps {
-    comic: ComicBook;
+    comic: ComicBook & { owns?: boolean; wants?: boolean};
 }
 
 const ItemCard: React.FC<ItemCardProps> = ({ comic }) => {
     const { data: session } = useSession()
-    const [owns, setOwns] = useState(false)
-    const [wants, setWants] = useState(false)
+    //const [owns, setOwns] = useState(false)
+    //const [wants, setWants] = useState(false)
+    const [owns, setOwns] = useState(comic.owns || false)
+    const [wants, setWants] = useState(comic.wants || false)
 
-    //Fetch want and own state from API
-    useEffect(() => {
+    //Fetch want and own state from API (Inefficent)
+    /*useEffect(() => {
         if(!session?.user?.id) return
         fetch(`/api/comic/${comic.id}/status`)
             .then(res => res.json())
@@ -24,6 +26,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ comic }) => {
                 setWants(data.wants)
             })
     }, [comic.id, session?.user?.id])
+    */
 
     //Owns & Wants Handlers
     const toggleOwn = async () => {
