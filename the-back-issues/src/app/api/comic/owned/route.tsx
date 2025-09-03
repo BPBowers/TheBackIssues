@@ -36,6 +36,9 @@ export async function GET() {
         where: { userId },
         select: { quantity: true }, // so you can also see how many copies they own
       },
+      UserWants: {
+        where: { userId },
+      }
     },
     orderBy: [
       { Series: { title: 'asc' }},
@@ -52,6 +55,8 @@ export async function GET() {
     releaseDate: comic.releaseDate,
     seriesTitle: comic.Series?.title || 'Unknown Series',
     publisherName: comic.Series?.Publisher?.name || 'Unknown Publisher',
+    owns: userId ? comic.UserOwns.length > 0 : false,
+    wants: userId ? comic.UserWants.length > 0 : false,
     quantity: comic.UserOwns[0]?.quantity ?? 1,
   }));
 

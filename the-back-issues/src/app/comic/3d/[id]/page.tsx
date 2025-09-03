@@ -1,7 +1,10 @@
 import {PrismaClient} from '@prisma/client'
 import ComicViewer from './ComicViewer'
 import ItemCard from "../../../components/ItemCard"
+import { getServerSession } from "next-auth"
+import { authOptions } from "../../../api/auth/[...nextauth]/route"
 import type { ComicBook } from "../../../types/comic"
+
 
 const prisma = new PrismaClient()
 
@@ -10,21 +13,29 @@ export default async function ComicDetailsPage3d(
 ) {
     const { id } = await context.params
     const comicId = parseInt(id)
+
+    const session = await getServerSession(authOptions)
+    const userId = session?.user?.id
+    
+    const include: any = {
+        Series: {
+            select: {
+                title: true,
+                Publisher: { select: { name: true } }
+            }
+        }
+    }
+
+    if(userId) {
+        include.UserOwns = { where: { userId } }
+        include.UserWants = { where: { userId } }
+    }
+
     const comic = await prisma.comicBook.findUnique({
         where: {id: comicId},
-        include: {
-            Series: {
-                select: {
-                    title: true,
-                        Publisher: {
-                            select: {
-                                name: true
-                            }
-                        }
-                }
-            }
-        },
-    });
+        include,
+    })
+
     //If no comic exists by ID, Throw this error
     if (!comic) return <div>!ERROR! No comic found with ID: {comicId}</div>
 
@@ -41,6 +52,8 @@ export default async function ComicDetailsPage3d(
         releaseDate: comic.releaseDate?.toISOString() ?? null,
         seriesTitle: comic.Series?.title || 'Unknown Series',
         publisherName: comic.Series?.Publisher?.name || 'Unknown Publisher',
+        owns: userId ? comic.UserOwns.length > 0 : false,
+        wants: userId ? comic.UserWants.length > 0 : false,
     };
 
     //Else comic with ID is found
