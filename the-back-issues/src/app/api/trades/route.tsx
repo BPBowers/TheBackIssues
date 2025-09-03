@@ -18,8 +18,8 @@ export async function GET(req: Request) {
             ...(wantComicId ? { wants: { some: { comicBookId: Number(wantComicId)} } } : {}),
         },
         include: {
-            offers: { include: { comicBook: true } },
-            wants: {include: { comicBook: true } },
+            offers: { include: { comicBook: { include: { Series: true} } } },
+            wants: {include: { comicBook: { include: { Series: true} } } },
             user: { select: { id: true, name: true, image: true}},
         },
         orderBy: { createdAt: "desc"},

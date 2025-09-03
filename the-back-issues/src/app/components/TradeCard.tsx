@@ -35,20 +35,26 @@ export default function TradeCard({ trade }: { trade: any }) {
   const wantsRemaining = trade.wants.length - MAX_WANTS_DISPLAY;
 
   return (
-    <div className="relative flex items-center justify-between border border-amber-700 bg-base-100 shadow-sm rounded-xl text-white w-200 h-45">
+    <div className="relative flex items-center justify-between border border-amber-700 bg-base-100 shadow-sm rounded-xl text-white">
 
       {/* Left Cover Cycler (Offers) */}
       <div
-        className="w-28 cursor-pointer"
+        className="cursor-pointer flex flex-col items-center"
         onMouseEnter={() => setShowOfferModal(true)}
         onMouseLeave={() => setShowOfferModal(false)}
       >
         {trade.offers.length > 0 && (
-          <img
-            src={`data:image/jpeg;base64,${trade.offers[offerIndex].comicBook.frontCover}`}
-            alt={`${trade.offers[offerIndex].comicBook.series?.title} #${trade.offers[offerIndex].comicBook.issue}`}
-            className="rounded-lg shadow-md object-cover w-full"
-          />
+          <>
+            <img
+              src={`data:image/jpeg;base64,${trade.offers[offerIndex].comicBook.frontCover}`}
+              alt={`${trade.offers[offerIndex].comicBook.Series?.title} #${trade.offers[offerIndex].comicBook.issue}`}
+              className="rounded-lg shadow-md object-cover w-[200px] h-[310px]"
+            />
+            <p className="mt-2 text-sm text-center text-white">
+              {trade.offers[offerIndex].comicBook.Series?.title ?? "Untitled"} #
+              {trade.offers[offerIndex].comicBook.issue}
+            </p>
+          </>
         )}
 
         {/* Modal with arrows */}
@@ -113,16 +119,22 @@ export default function TradeCard({ trade }: { trade: any }) {
 
       {/* Right Cover Cycler (Wants) */}
       <div
-        className="w-28 cursor-pointer"
+        className="cursor-pointer flex flex-col items-center"
         onMouseEnter={() => setShowWantModal(true)}
         onMouseLeave={() => setShowWantModal(false)}
       >
         {trade.wants.length > 0 && (
-          <img
-            src={`data:image/jpeg;base64,${trade.wants[wantIndex].comicBook.frontCover}`}
-            alt={`${trade.wants[wantIndex].comicBook.series?.title} #${trade.wants[wantIndex].comicBook.issue}`}
-            className="rounded-lg shadow-md object-cover w-full"
-          />
+          <>
+            <img
+              src={`data:image/jpeg;base64,${trade.wants[wantIndex].comicBook.frontCover}`}
+              alt={`${trade.wants[wantIndex].comicBook.Series?.title} #${trade.wants[wantIndex].comicBook.issue}`}
+              className="rounded-lg shadow-md object-cover w-[200px] h-[310px]"
+            />
+            <p className="mt-2 text-sm text-center text-white">
+              {trade.wants[wantIndex].comicBook.Series?.title ?? "Untitled"} #
+              {trade.wants[wantIndex].comicBook.issue}
+            </p>
+          </>
         )}
 
         {/* Modal with arrows */}

@@ -50,7 +50,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ comic }) => {
         <div className="border-amber-700 border card card-side bg-base-100 shadow-sm motion-opacity-in-0 motion-scale-in-0 hover:motion-opacity-in-100 hover:motion-scale-in-100 transition-all duration-300">
             <img width="200vw" height="270vw" 
             src={imgSrc}
-            alt="Comic Name" />
+            alt="Comic Name" className="rounded-xl"/>
             <div className="card-body">
                 <h2 className="card-title">{comic.seriesTitle || 'Unknown'} {displayIssue}</h2>
                 <p className="font-bold">Publisher:  <span className="font-normal ">{comic.publisherName || 'Unknown'}</span></p>

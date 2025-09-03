@@ -4,13 +4,14 @@ import Image from "next/image";
 import { useDraggable } from "@dnd-kit/core";
 
 export default function ComicCard({ comic, type }: { comic: any; type: "own" | "want" }) {
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id: `${type}-${comic.id}`,
     data: { comic, type },
   });
 
   const style = {
     transform: transform ? `translate(${transform.x}px, ${transform.y}px)` : undefined,
+    opacity: isDragging ? 0 : 1, //This will hide the original comic while the drag is in action
   };
 
   return (

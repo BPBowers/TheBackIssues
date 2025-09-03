@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { DndContext } from "@dnd-kit/core";
+import { DndContext, DragOverlay, useDraggable } from "@dnd-kit/core";
 import ComicCard from "./TradeComicCard";
 import TradeBucket from "./TradeBucket";
 import { useTrade } from "../hooks/useTrade";
@@ -20,21 +20,39 @@ export default function TradePostForm({
   const [location, setLocation] = useState("");
   const [message, setMessage] = useState("");
   const [exactMatch, setExactMatch] = useState(true);
+  const [isDragging, setIsDragging] = useState(false);
 
-  const handleDrop = (event: any) => {
-  const { over, active } = event;
-  if (!over) return;
+  const [activeComic, setActiveComic] = useState<ComicBook | null>(null);
 
-  const { comic, type } = active.data.current;
+  const handleDragStart = (event: any) => {
+    const { comic } = event.active.data.current;
+    setActiveComic(comic);
+    setIsDragging(true);
+  };
 
-  if (over.id === "offers" && type === "own") {
-    setOffers((prev) => (prev.find((c) => c.id === comic.id) ? prev : [...prev, comic]));
-  }
+  const handleDragEnd = (event: any) => {
+    const { over, active } = event;
+    setActiveComic(null);
+    setIsDragging(false);
+    if (!over) return;
 
-  if (over.id === "wants") {
-    setWants((prev) => (prev.find((c) => c.id === comic.id) ? prev : [...prev, comic]));
-  }
+    const { comic, type } = active.data.current;
+
+    if (over.id === "offers" && type === "own") {
+      setOffers((prev) => (prev.find((c) => c.id === comic.id) ? prev : [...prev, comic]));
+    }
+
+    if (over.id === "wants") {
+      setWants((prev) => (prev.find((c) => c.id === comic.id) ? prev : [...prev, comic]));
+    }
 };
+
+  function removeOffer(comicId: number) {
+    setOffers((prev) => prev.filter((c) => c.id !== comicId));
+  }
+  function removeWant(comicId: number) {
+    setWants((prev) => prev.filter((c) => c.id !== comicId));
+  }
 
   function handleAddOffer(comic: ComicBook) {
   setOffers((prev) => 
@@ -66,7 +84,7 @@ const submit = async (e: React.FormEvent) => {
   setExactMatch(true);
 };
   return (
-    <form onSubmit={submit} className="p-4 border rounded-xl bg-white shadow-md text-black">
+    <form onSubmit={submit} className="border-amber-700 border bg-base-100 rounded-xl shadow-sm motion-opacity-in-0 motion-scale-in-0 hover:motion-opacity-in-100 hover:motion-scale-in-100 transition-all duration-300 p-4">
       <h2 className="text-xl font-bold mb-4">Create a Trade</h2>
 
       <label className="block mb-2">
@@ -97,12 +115,12 @@ const submit = async (e: React.FormEvent) => {
         Exact Match Required
       </label>
 
-      <DndContext onDragEnd={handleDrop}>
+      <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
         <div className="grid grid-cols-2 gap-6">
           {/* Owned Comics */}
           <div>
             <h3 className="font-semibold mb-2">Your Comics</h3>
-              <div className="flex gap-2 flex-wrap max-h-60 overflow-y-auto">
+              <div className={`flex gap-2 flex-wrap max-h-60 overflow-y-auto ${isDragging ? "overflow-hidden" : "overflow-y-auto"}`}>
                 {userOwns.map((comic) => (
                 <ComicCard key={comic.id} comic={comic} type="own" />
                 ))}
@@ -112,7 +130,7 @@ const submit = async (e: React.FormEvent) => {
           {/* All Comics (for wants) */}
           <div>
             <h3 className="font-semibold mb-2">Available Comics</h3>
-            <div className="flex gap-2 flex-wrap max-h-60 overflow-y-auto">
+            <div className={`flex gap-2 flex-wrap max-h-60 overflow-y-auto ${isDragging ? "overflow-hidden" : "overflow-y-auto"}`}>
               {allComics.map((comic) => (
                 <ComicCard key={comic.id} comic={comic} type="want" />
               ))}
@@ -122,9 +140,21 @@ const submit = async (e: React.FormEvent) => {
 
         {/* Buckets */}
         <div className="grid grid-cols-2 gap-6 mt-6">
-          <TradeBucket id="offers" title="Offer Bucket" comics={offers} />
-          <TradeBucket id="wants" title="Want Bucket" comics={wants} />
+          <TradeBucket id="offers" title="Offer Bucket" comics={offers} onRemove={removeOffer}/>
+          <TradeBucket id="wants" title="Want Bucket" comics={wants} onRemove={removeWant}/>
         </div>
+
+        {/*This is the drag function that displays it over the entire site*/}
+        <DragOverlay>
+          {activeComic ? (
+            <div className="w-20">
+              <img src={`data:image/jpeg;base64,${activeComic.frontCover}`} alt={activeComic.Series?.title}/>
+              <p className="text-xs truncate text-center text-black bg-white">
+
+              </p>
+              </div>
+          ) : null}
+        </DragOverlay>
       </DndContext>
 
       <button
