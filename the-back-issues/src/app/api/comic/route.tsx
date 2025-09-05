@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
-    const { issue, frontCover, backCover, coverPrice, releaseDate, seriesId } = await req.json() 
+    const { issue, frontCover, backCover, coverPrice, releaseDate, seriesId, artists } = await req.json() 
     
     const newComic = await prisma.comicBook.create({
       data: {
@@ -20,7 +20,14 @@ export async function POST(req: Request) {
         coverPrice: coverPrice ? Number(coverPrice) : null,
         releaseDate: new Date(releaseDate),
         Series: { connect: {id: Number(seriesId)}},
+        artists: {
+          create: artists?.map((a: {artistId: number; role: string})=>({
+            artist: { connect: { id:a.artistId}},
+            role: a.role,
+          })) || [],
+        },
       },
+      include: { artists: {include: {artist: true}}}
     })
 
     return NextResponse.json(newComic, { status: 201 })

@@ -16,12 +16,14 @@ model ComicBook {
   releaseDate       DateTime?
   seriesID          Int
   Series            Series              @relation(fields: [seriesID], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  
   UserOwns          UserOwns[]
   UserWants         UserWants[]
   TradeOffer        TradeOffer[]
   TradeWant         TradeWant[]
   CounterOfferOffer CounterOfferOffer[]
   CounterOfferWant  CounterOfferWant[]
+  artists           WorkedOn[]
 }
 
 model Series {
@@ -50,17 +52,36 @@ model User {
   CounterOffer CounterOffer[]
 }
 
-model Creator {
-  id            String     @id @default(autoincrement())
+enum ArtistRole {
+  WRITER
+  PENCILLER     
+  INKER      
+  COLORIST     
+  LETTERER 
+  COVER_ARTIST 
+  EDITOR
+}
+
+model WorkedOn {
+  id          Int         @id @default(autoincrement())
+  comicBookId Int
+  artistId    Int
+  role        ArtistRole
+
+  comicBook   ComicBook   @relation(fields: [comicBookId], references: [id], onDelete: Cascade)
+  artist      Artist      @relation(fields: [artistId], references: [id], onDelete: Cascade)
+
+  @@unique([comicBookId, artistId, role])
+}
+
+model Artist {
+  id            Int       @id @default(autoincrement())
   firstName     String
+  middleName    String?
   lastName      String
-  Wrote         Wrote[]
-  Pencilled     Pencilled[]
-  Inked         Inked[]
-  Colored       Colored[]
-  Lettered      Lettered[]
-  CoverArtist   CoverArtist[]
-  Edited        Edited[]
+  ProfilePic    String?
+
+  credits       WorkedOn[]
 }
 
 model Account {

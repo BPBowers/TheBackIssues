@@ -10,11 +10,25 @@ export default function AddComic() {
     const [seriesId, setSeriesId] = useState('')
     const [seriesList, setSeriesList] = useState([])
 
+    const [artistQuery, setArtistQuery] = useState('')
+    const [artistResults, setArtistResults] = useState<any[]>([])
+    const [selectedArtists, setSelectedArtists] = useState<{artistId: number; name: string; role: string}[]>([])
+
     useEffect(() => {
         fetch('/api/series')
         .then(res =>res.json())
         .then(data => setSeriesList(data))
     }, [])
+
+    useEffect(() => {
+        if(artistQuery.length > 1) {
+          fetch(`/api/artists/search?q=${artistQuery}`)
+            .then(res => res.json())
+            .then(setArtistResults)
+        } else {
+          setArtistResults([])
+        }
+    }, [artistQuery])
 
     const handleImageUpload = (file: File, setFunc: (value: string) => void) => {
     const reader = new FileReader()
@@ -66,6 +80,45 @@ export default function AddComic() {
       <input type="file" accept="image/*" onChange={(e) => {
         if (e.target.files?.[0]) handleImageUpload(e.target.files[0], setBackCover)
       }} />
+      <div>
+      <label>Artists</label>
+      <input type="text" placeholder="search artist..." value={artistQuery} onChange={e=> setArtistQuery(e.target.value)}/>
+      {artistResults.length > 0 && (
+        <ul style={{border:'1px solid #ccc', padding: '0.5rem'}}>
+          {artistResults.map(a=> (
+            <li key={a.id}>
+              {a.firstName} {a.lastName}
+              <select defaultValue="WRITER" onChange={(e) => {
+              const role = e.target.value 
+              setSelectedArtists(prev => [...prev, {artistId: a.id, name: `${a.firstName} ${a.lastName}`, role}])
+              setArtistQuery('')
+              setArtistResults([])
+              }}>
+                <option value="WRITER">Writer</option>
+                <option value="PENCILLER">Penciller</option>
+                <option value="INKER">Inker</option>
+                <option value="COLORIST">Colorist</option>
+                <option value="LETTERER">Letterer</option>
+                <option value="COVER_ARTIST">Cover Artist</option>
+                <option value="EDITOR">Editor</option>
+              </select>
+            </li>
+          ))}  
+        </ul>
+      )}
+
+      <ul>
+        {selectedArtists.map((a, idx) => (
+          <li key={idx}>
+            {a.name} - {a.role}
+            <button type="button" onClick={() => setSelectedArtists(selectedArtists.filter((_, i) => i !==idx))}>
+              Remove
+            </button>
+          </li>
+        ))}
+      </ul>
+      </div>
+
       <button type="submit">Add Comic</button>
     </form>
   )
