@@ -10,16 +10,20 @@ export async function GET(req: Request) {
 
   if (!q) return NextResponse.json([])
 
-  const artists = await prisma.artist.findMany({
-    where: {
-      OR: [
-        { firstName: { contains: q, mode: 'insensitive' } },
-        { lastName: { contains: q, mode: 'insensitive' } },
-      ],
-    },
-    take: 10,
-    orderBy: { lastName: 'asc' },
-  })
+  const artists = await prisma.$queryRawUnsafe<
+    {id: number; firstName: string; middleName: string | null ; lastName: string;}>
+    (
+      `SELECT id, firstName, middleName, lastName, profilePic
+      FROM Artist
+      WHERE firstName LIKE '%' || ? || '%' COLLATE NOCASE
+        OR lastName LIKE '%' || ? || '%' COLLATE NOCASE
+        OR (firstName || ' ' || lastName) LIKE '%' || ? || '%' COLLATE NOSCASE
+      ORDER BY lastName ASC
+      LIMIT 10`,
+    q,
+    q,
+    q
+  )
 
   return NextResponse.json(artists)
 }

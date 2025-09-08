@@ -82,18 +82,19 @@ export default function AddComic() {
       }} />
       <div>
       <label>Artists</label>
-      <input type="text" placeholder="search artist..." value={artistQuery} onChange={e=> setArtistQuery(e.target.value)}/>
+      <input type="text" className="p-1" placeholder="search artist..." value={artistQuery} onChange={e=> setArtistQuery(e.target.value)}/>
       {artistResults.length > 0 && (
         <ul style={{border:'1px solid #ccc', padding: '0.5rem'}}>
           {artistResults.map(a=> (
             <li key={a.id}>
               {a.firstName} {a.lastName}
-              <select defaultValue="WRITER" onChange={(e) => {
+              <select defaultValue="" onChange={(e) => {
               const role = e.target.value 
               setSelectedArtists(prev => [...prev, {artistId: a.id, name: `${a.firstName} ${a.lastName}`, role}])
               setArtistQuery('')
               setArtistResults([])
               }}>
+                <option value="" disabled>Select Role</option>
                 <option value="WRITER">Writer</option>
                 <option value="PENCILLER">Penciller</option>
                 <option value="INKER">Inker</option>
@@ -111,7 +112,7 @@ export default function AddComic() {
         {selectedArtists.map((a, idx) => (
           <li key={idx}>
             {a.name} - {a.role}
-            <button type="button" onClick={() => setSelectedArtists(selectedArtists.filter((_, i) => i !==idx))}>
+            <button type="button" className="p-1" onClick={() => setSelectedArtists(selectedArtists.filter((_, i) => i !==idx))}>
               Remove
             </button>
           </li>
