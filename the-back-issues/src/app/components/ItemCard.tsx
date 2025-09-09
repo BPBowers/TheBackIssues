@@ -16,18 +16,6 @@ const ItemCard: React.FC<ItemCardProps> = ({ comic }) => {
     const [owns, setOwns] = useState(comic.owns || false)
     const [wants, setWants] = useState(comic.wants || false)
 
-    //Fetch want and own state from API (Inefficent)
-    /*useEffect(() => {
-        if(!session?.user?.id) return
-        fetch(`/api/comic/${comic.id}/status`)
-            .then(res => res.json())
-            .then(data => {
-                setOwns(data.owns)
-                setWants(data.wants)
-            })
-    }, [comic.id, session?.user?.id])
-    */
-
     //Owns & Wants Handlers
     const toggleOwn = async () => {
         const res = await fetch(`/api/comic/${comic.id}/own`, {method: "POST"})
@@ -54,8 +42,39 @@ const ItemCard: React.FC<ItemCardProps> = ({ comic }) => {
             <div className="card-body">
                 <h2 className="card-title">{comic.seriesTitle || 'Unknown'} {displayIssue}</h2>
                 <p className="font-bold">Publisher:  <span className="font-normal ">{comic.publisherName || 'Unknown'}</span></p>
-                <p className="font-bold">Writer(s): <span className="font-normal"></span></p>
-                <p className="font-bold">Artist(s): <span className="font-normal"></span></p>
+                <p className="font-bold">Writer(s):{" "}
+                    <span className="font-normal">
+                        {comic.artists
+                            .filter(a=>a.role==="WRITER")
+                            .map(a=>`${a.artist.firstName} ${a.artist.lastName}`)
+                            .join(", ") || "N/A"
+                        }    
+                    </span>
+                </p>
+                <p className="font-bold">Artist(s):{" "}
+                    <span className="font-normal">
+                        {(() => {
+                            const grouped = comic.artists
+                                .filter(a => a.role !== "WRITER" && a.role !== "LETTERER")
+                                .reduce((acc, curr) => {
+                                    const id = curr.artist.id;
+                                    if(!acc[id]) {
+                                        acc[id] = {
+                                            name: `${curr.artist.firstName} ${curr.artist.lastName}`,
+                                            roles: new Set<string>(),
+                                        };
+                                    }
+                                    acc[id].roles.add(curr.role);
+                                    return acc;
+                                }, {} as Record<number, {name: string; roles: Set<string> }>);
+
+                                const display = Object.values(grouped).map(
+                                    entry => `${entry.name} (${Array.from(entry.roles).join(", ")})`
+                                );
+                                return display.join(", ") || "N/A";
+                        })()}
+                    </span>
+                </p>
                 <p className="font-bold">Release Year: <span className="font-normal">{displayReleaseYear}</span></p>
                 <p className="font-bold">Cover Price: <span className="font-normal">{displayCoverPrice}</span></p>
                 <div className="card-actions justify-self-end-safe">

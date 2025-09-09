@@ -12,6 +12,22 @@ export interface Series {
   Publisher?: Publisher;
 }
 
+export interface Artist {
+  id: number;
+  firstName: string;
+  middleName?: string | null;
+  lastName: string;
+  profilePic?: string | null;
+}
+
+export type ArtistRole = 
+  | "WRITER" | "PENCILLER" | "INKER" | "COLORIST" | "LETTERER" | "COVER_ARTIST" | "EDITOR";
+
+export interface WorkedOn {
+  role: ArtistRole;
+  artist: Artist;
+}
+
 export interface ComicBook {
   id: number;
   issue?: number | null;
@@ -23,5 +39,6 @@ export interface ComicBook {
   Series?: Series;
   publisherName?: string| null;
   Publisher?: Publisher;
+  artists: WorkedOn[];
 }
 

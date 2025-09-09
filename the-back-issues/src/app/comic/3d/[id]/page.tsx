@@ -23,6 +23,11 @@ export default async function ComicDetailsPage3d(
                 title: true,
                 Publisher: { select: { name: true } }
             }
+        },
+        artists: {
+            include: {
+                artist: true,
+            }
         }
     }
 
@@ -54,6 +59,16 @@ export default async function ComicDetailsPage3d(
         publisherName: comic.Series?.Publisher?.name || 'Unknown Publisher',
         owns: userId ? comic.UserOwns.length > 0 : false,
         wants: userId ? comic.UserWants.length > 0 : false,
+        artists: comic.artists.map(a=>({
+            role: a.role,
+            artist: {
+                id: a.artist.id,
+                firstName: a.artist.firstName,
+                middleName: a.artist.middleName,
+                lastName: a.artist.lastName,
+                profilePic: a.artist.ProfilePic,
+            }
+        })),
     };
 
     //Else comic with ID is found

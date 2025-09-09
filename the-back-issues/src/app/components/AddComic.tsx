@@ -51,6 +51,7 @@ export default function AddComic() {
         frontCover,
         backCover,
         seriesId,
+        artists: selectedArtists,
       }),
     });
     alert('Comic created successfully!');

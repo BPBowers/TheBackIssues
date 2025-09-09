@@ -49,6 +49,20 @@ export async function GET() {
             Publisher: { select: { name: true } },
         },
       },
+      artists: {
+        select: {
+          role: true,
+          artist: {
+            select: {
+              id: true,
+              firstName: true,
+              middleName: true,
+              lastName: true,
+              ProfilePic: true,
+            },
+          },
+        },
+      },
         UserOwns: userId ? { where: { userId }, select: { userId: true} } : false,
         UserWants: userId ? { where: { userId }, select: { userId: true } } : false
     },
@@ -72,6 +86,17 @@ export async function GET() {
     publisherName: comic.Series?.Publisher?.name || 'Unknown Publisher',
     owns: userId ? comic.UserOwns.length > 0 : false,
     wants: userId ? comic.UserWants.length > 0 : false,
+
+    artists: comic.artists.map(a => ({
+      role: a.role,
+      artist: {
+        id: a.artist.id,
+        firstName: a.artist.firstName,
+        middleName: a.artist.middleName,
+        lastName: a.artist.lastName,
+        profilePic: a.artist.ProfilePic,
+      }
+    })),
   }));
 
   return Response.json(comicWithBase64)
