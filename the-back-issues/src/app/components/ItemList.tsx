@@ -9,6 +9,7 @@ export default function ItemList() {
     const [filteredPublisher, setFilteredPublisher] = useState<string>('')
     const [filteredSeries, setFilteredSeries] = useState<string>('')
     const [filteredYear, setFilteredYear] = useState<string>('')
+    const [filteredArtist, setFilteredArtist] = useState<string>('')
 
     useEffect(() => {
         fetch('/api/comic')
@@ -41,12 +42,25 @@ export default function ItemList() {
         )
     ].sort((a, b) => a - b)
 
+    const availableArtists = [
+        ...new Set(
+            comics
+                .filter(c =>
+                    (!filteredPublisher || c.publisherName === filteredPublisher)
+                    && (!filteredSeries || c.seriesTitle == filteredSeries)
+                ).flatMap(c => (c.artists || []).map(a=>`${a.artist.firstName} ${a.artist?.middleName || ''} ${a.artist.lastName}`)
+            )
+        )
+    ].sort()
+
     const visibleComics = comics.filter(c => {
         const year = new Date(c.releaseDate).getFullYear().toString()
+        const artistNames = (c.artists || []).map(a => `${a.artist.firstName} ${a.artist?.middleName || ''} ${a.artist.lastName}`)
         return (
         (!filteredPublisher || c.publisherName === filteredPublisher)
         && (!filteredSeries || c.seriesTitle === filteredSeries)
         && (!filteredYear || year === filteredYear)
+        && (!filteredArtist || artistNames.includes(filteredArtist))
         )
     })
 
@@ -89,7 +103,18 @@ export default function ItemList() {
                     <option key={y} value={y}>{y}</option>
                 ))}
                 </select>
+                <select 
+                    className="select select-bordered w-full max-w-xs"
+                    value={filteredArtist}
+                    onChange={(e) => setFilteredArtist(e.target.value)}
+                    >
+                        <option value="">All Artists</option>
+                        {availableArtists.map(a => (
+                            <option key={a} value={a}>{a}</option>
+                        ))}
+                </select>
             </div>
+            <div className="flex justify-center">
             <ul>
                 {visibleComics.map((comic) => (
                     comic?.issue != undefined && (
@@ -99,6 +124,7 @@ export default function ItemList() {
                     </li>
                 )))}
             </ul>
+            </div>
         </div>
     )
 }

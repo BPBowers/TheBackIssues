@@ -89,7 +89,9 @@ export default async function ComicDetailsPage3d(
                 {comic.Series?.title || 'Unknown Series'} #{comic.issue}
             </h1>
             <ComicViewer frontCover={frontCover}/>
-            <ComicCard comic={formattedComic}/>
+            <div className="flex justify-center">
+                <ComicCard comic={formattedComic}/>
+            </div>
             {/*Admin Tools*/}
             <h3>Admin Tools</h3>
             <Link href={`/admin/editcomic?id=${comic.id}`}>

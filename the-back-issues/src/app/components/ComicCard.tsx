@@ -79,7 +79,7 @@ const ComicCard: React.FC<ComicCardProps> = ({ comic }) => {
     const displayCoverPrice = comic.coverPrice != null ? `$${Number(comic.coverPrice).toFixed(2)}` : 'N/A'
 
     return (
-    <div className="flex border justify-center border-amber-700 bg-base-100 shadow-md rounded-lg overflow-hidden w-full max-w-6xl min-h-[300px]">
+    <div className="flex border border-amber-700 bg-base-100 shadow-md rounded-lg overflow-hidden max-w-3xl min-h-[300px] motion-opacity-in-0 motion-scale-in-0 transition-all duration-300">
       {/* LEFT MARGIN */}
       <div className="flex flex-col items-center w-1/4 p-4">
         <img
@@ -87,9 +87,9 @@ const ComicCard: React.FC<ComicCardProps> = ({ comic }) => {
           alt="Comic Cover"
           className="rounded-md shadow-md w-full h-auto"
         />
-        <p className="text-sm mt-2 text-gray-400">
+        <p className="text-xs mt-2 text-gray-400">
           <span className="font-bold">Cover Artist: </span>
-          {coverArtist}
+          <span className="text-blue-500">{coverArtist}</span>
         </p>
       </div>
 
@@ -97,7 +97,7 @@ const ComicCard: React.FC<ComicCardProps> = ({ comic }) => {
       <div className="flex flex-col w-2/4 p-4 space-y-3">
         {/* Titlebar */}
         <Link href={`/comic/3d/${comic.id}`}>
-          <h2 className="text-xl font-bold hover:underline">
+          <h2 className="text-xl font-bold hover:underline hover:text-blue-500">
             {comic.seriesTitle || "Unknown"} {displayIssue} |{" "}
             {comic.publisherName || "Unknown"}
           </h2>
@@ -115,20 +115,20 @@ const ComicCard: React.FC<ComicCardProps> = ({ comic }) => {
         </p>
 
         {/* Info Grid */}
-        <div className="grid grid-cols-2 gap-4 text-sm mt-2">
+        <div className="grid grid-cols-2 gap-4 text-xs mt-2">
           {/* Left column */}
           <div>
             <p>
               <span className="font-bold">Writer(s): </span>
-              {writers}
+              <span className="text-blue-500">{writers}</span>
             </p>
             <p>
               <span className="font-bold">Artist(s): </span>
-              {groupedArtists}
+              <span className="text-blue-500">{groupedArtists}</span>
             </p>
             <p>
               <span className="font-bold">Letterer(s): </span>
-              {letterers}
+              <span className="text-blue-500">{letterers}</span>
             </p>
           </div>
 
@@ -161,7 +161,7 @@ const ComicCard: React.FC<ComicCardProps> = ({ comic }) => {
         <p>{wants ? "You want this issue" : "X users want this issue"}</p>
         <p>X users offering to trade</p>
 
-        {/* Checkboxes */}
+        {/* Collection Checkboxes */}
         <div>
             <h3 className="font-bold text-m">Your Collection</h3>
             <label className="flex items-center space-x-2">
