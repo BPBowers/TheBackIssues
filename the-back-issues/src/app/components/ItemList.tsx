@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import ItemCard from './ItemCard'
+import ComicCard from './ComicCard'
 import type { ComicBook } from "../types/comic" 
 
 export default function ItemList() {
@@ -93,7 +94,8 @@ export default function ItemList() {
                 {visibleComics.map((comic) => (
                     comic?.issue != undefined && (
                     <li key={comic.id}>
-                        <ItemCard comic={comic}/>
+                        {/*<ItemCard comic={comic}/>*/}
+                        <ComicCard comic={comic}/>
                     </li>
                 )))}
             </ul>

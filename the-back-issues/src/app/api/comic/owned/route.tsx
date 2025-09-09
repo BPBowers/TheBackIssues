@@ -32,6 +32,20 @@ export async function GET() {
           }
         }
       },
+      artists: {
+        select: {
+          role: true,
+          artist: {
+            select: {
+              id: true,
+              firstName: true,
+              middleName: true,
+              lastName: true,
+              ProfilePic: true,
+            },
+          },
+        },
+      },
       UserOwns: {
         where: { userId },
         select: { quantity: true }, // so you can also see how many copies they own
@@ -58,6 +72,16 @@ export async function GET() {
     owns: userId ? comic.UserOwns.length > 0 : false,
     wants: userId ? comic.UserWants.length > 0 : false,
     quantity: comic.UserOwns[0]?.quantity ?? 1,
+    artists: comic.artists.map(a => ({
+      role: a.role,
+      artist: {
+        id: a.artist.id,
+        firstName: a.artist.firstName,
+        middleName: a.artist.middleName,
+        lastName: a.artist.lastName,
+        profilePic: a.artist.ProfilePic,
+      }
+    })),
   }));
 
   return Response.json(comicWithBase64)

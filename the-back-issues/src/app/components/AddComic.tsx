@@ -1,5 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
+import ComicCard from './ComicCard'
+import type { ComicBook, ArtistRole } from '../types/comic'
 
 export default function AddComic() {
     const [frontCover, setFrontCover] = useState<string | null>(null)
@@ -57,13 +59,38 @@ export default function AddComic() {
     alert('Comic created successfully!');
   };
 
+  const previewComic: ComicBook = {
+    id: -1, // fake id
+    issue: issue ? parseInt(issue) : null,
+    frontCover,
+    backCover,
+    coverPrice: coverPrice ? parseFloat(coverPrice) : null,
+    releaseDate: releaseDate || null,
+    seriesTitle:
+      seriesList.find(s => String(s.id) === seriesId)?.title || 'New Series',
+    Publisher: seriesList.find(s => String(s.id) === seriesId)?.Publisher,
+    publisherName:
+      seriesList.find(s => String(s.id) === seriesId)?.Publisher?.name ||
+      'Unknown',
+    Series: seriesList.find(s => String(s.id) === seriesId),
+    artists: selectedArtists.map(a => ({
+      role: a.role,
+      artist: {
+        id: a.artistId,
+        firstName: a.name.split(' ')[0],
+        lastName: a.name.split(' ')[1] || '',
+      },
+    })),
+  }
+
   return (
+    <div className="flex flex-col gap-6">
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <h2>Upload New Comic</h2>
       <select value={seriesId} onChange={e => setSeriesId(e.target.value)} required>
         <option value="">Select Series</option>
         {seriesList.map((s: any) => (
-          <option key={s.id} value={s.id}>
+          <option className="text-black" key={s.id} value={s.id}>
             {s.title} ({s.Publisher?.name})
           </option>
         ))}
@@ -95,14 +122,14 @@ export default function AddComic() {
               setArtistQuery('')
               setArtistResults([])
               }}>
-                <option value="" disabled>Select Role</option>
-                <option value="WRITER">Writer</option>
-                <option value="PENCILLER">Penciller</option>
-                <option value="INKER">Inker</option>
-                <option value="COLORIST">Colorist</option>
-                <option value="LETTERER">Letterer</option>
-                <option value="COVER_ARTIST">Cover Artist</option>
-                <option value="EDITOR">Editor</option>
+                  <option className="text-black" value="" disabled>Select Role</option>
+                  <option className="text-black" value="WRITER">Writer</option>
+                  <option className="text-black" value="PENCILLER">Penciller</option>
+                  <option className="text-black" value="INKER">Inker</option>
+                  <option className="text-black" value="COLORIST">Colorist</option>
+                  <option className="text-black" value="LETTERER">Letterer</option>
+                  <option className="text-black" value="COVER_ARTIST">Cover Artist</option>
+                  <option className="text-black" value="EDITOR">Editor</option>
               </select>
             </li>
           ))}  
@@ -123,5 +150,10 @@ export default function AddComic() {
 
       <button type="submit">Add Comic</button>
     </form>
+        <div>
+          <h3 className="text-lg font-bold mb-2">Preview</h3>
+          <ComicCard comic={previewComic}/>
+        </div>
+    </div>
   )
 }

@@ -11,8 +11,6 @@ interface ItemCardProps {
 
 const ItemCard: React.FC<ItemCardProps> = ({ comic }) => {
     const { data: session } = useSession()
-    //const [owns, setOwns] = useState(false)
-    //const [wants, setWants] = useState(false)
     const [owns, setOwns] = useState(comic.owns || false)
     const [wants, setWants] = useState(comic.wants || false)
 
@@ -73,6 +71,15 @@ const ItemCard: React.FC<ItemCardProps> = ({ comic }) => {
                                 );
                                 return display.join(", ") || "N/A";
                         })()}
+                    </span>
+                </p>
+                <p className="font-bold">Letterer(s):{" "}
+                    <span className="font-normal">
+                        {comic.artists
+                            .filter(a=>a.role==="LETTERER")
+                            .map(a=>`${a.artist.firstName} ${a.artist.lastName}`)
+                            .join(", ") || "N/A"
+                        }    
                     </span>
                 </p>
                 <p className="font-bold">Release Year: <span className="font-normal">{displayReleaseYear}</span></p>

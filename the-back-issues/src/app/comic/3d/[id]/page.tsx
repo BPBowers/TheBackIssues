@@ -1,9 +1,10 @@
 import {PrismaClient} from '@prisma/client'
 import ComicViewer from './ComicViewer'
-import ItemCard from "../../../components/ItemCard"
+import ComicCard from "../../../components/ComicCard"
 import { getServerSession } from "next-auth"
 import { authOptions } from "../../../api/auth/[...nextauth]/route"
 import type { ComicBook } from "../../../types/comic"
+import Link from 'next/link'
 
 
 const prisma = new PrismaClient()
@@ -87,10 +88,13 @@ export default async function ComicDetailsPage3d(
             <h1 className="text-2xl font-bold mb-4">
                 {comic.Series?.title || 'Unknown Series'} #{comic.issue}
             </h1>
-        <ComicViewer frontCover={frontCover}/>
-        <ItemCard comic={formattedComic}/>
-        <p><strong>Release Date:</strong> {comic.releaseDate?.toString().slice(0, 15)}</p>
-        {/*Update Comic Cover*/}
+            <ComicViewer frontCover={frontCover}/>
+            <ComicCard comic={formattedComic}/>
+            {/*Admin Tools*/}
+            <h3>Admin Tools</h3>
+            <Link href={`/admin/editcomic?id=${comic.id}`}>
+                <button className="btn btn-ghost border-1 border-amber-400">Edit This Issue</button>
+            </Link>
         </div>
     )
 }
